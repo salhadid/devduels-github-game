@@ -9,9 +9,26 @@ import { UserService } from 'src/user.service';
 export class InspectComponent implements OnInit {
 
   username: string = ""
+  public showUserData: boolean = false;
 
 
   constructor(private userService: UserService) { }
+
+  inspectedUser: {
+    username?: string;
+    name?: string;
+    location?: string | null;
+    bio?: string;
+    avatar_url?: string;
+    favorite_language?: string;
+    followers?: number;
+    following?: number;
+    highest_starred?: number;
+    perfect_repos?: number;
+    public_repos?: number;
+    titles?: Array<string>;
+    total_stars?: number;
+  } = {};
 
   ngOnInit(): void {
   }
@@ -20,8 +37,9 @@ export class InspectComponent implements OnInit {
     this.username = valueEmitted;
   }
 
-  onSubmit() {
-    this.userService.inspectUser(this.username);
+  async onSubmit() {
+    this.inspectedUser = await this.userService.inspectUser(this.username);
+    this.showUserData = true;
   }
 
 
